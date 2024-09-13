@@ -21,6 +21,12 @@
             --sidebar-width-expanded: 250px;
             --sidebar-width-collapsed: 60px;
             --transition-speed: 0.3s;
+            --dark-background: #333;
+            --dark-text-color: #fff;
+            --dark-sidebar-bg: #222;
+            --dark-button-bg-color: #555;
+            --dark-button-hover-color: #444;
+            --dark-table-header-bg: #444;
         }
 
         /* General Styles */
@@ -31,6 +37,8 @@
             display: flex;
             height: 100vh;
             overflow: hidden;
+            color: var(--text-color);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
         /* Sidebar Styles */
@@ -271,15 +279,37 @@
                 width: 100%;
             }
         }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: var(--dark-background);
+            color: var(--dark-text-color);
+        }
+
+        aside.dark-mode {
+            background-color: var(--dark-sidebar-bg);
+        }
+
+        .btn.dark-mode {
+            background-color: var(--dark-button-bg-color);
+        }
+
+        .btn.dark-mode:hover {
+            background-color: var(--dark-button-hover-color);
+        }
+
+        th.dark-mode {
+            background-color: var(--dark-table-header-bg);
+        }
     </style>
 </head>
 <body>
     <!-- Sidebar -->
-    <aside id="sidebar">
-        <button id="toggle-sidebar" class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+    <aside id="sidebar" role="navigation">
+        <button id="toggle-sidebar" class="sidebar-toggle" aria-label="Toggle Sidebar"><i class="fas fa-bars"></i></button>
         <nav>
             <h2>Dashboard</h2>
-            <a href="#products" class="nav-link"><i class="fas fa-box"></i> Products</a>
+            <a href="#products" class="nav-link" aria-current="page"><i class="fas fa-box"></i> Products</a>
             <a href="#orders" class="nav-link"><i class="fas fa-receipt"></i> Orders</a>
             <a href="#customers" class="nav-link"><i class="fas fa-users"></i> Customers</a>
             <a href="#reports" class="nav-link"><i class="fas fa-chart-line"></i> Reports</a>
@@ -291,19 +321,19 @@
         <!-- Header -->
         <header>
             <h1>Clothes Shop CRM</h1>
-            <input type="text" id="header-search" placeholder="Search...">
-            <button id="theme-switcher" class="btn"><i class="fas fa-palette"></i></button>
+            <input type="text" id="header-search" placeholder="Search..." aria-label="Search">
+            <button id="theme-switcher" class="btn" aria-label="Switch Theme"><i class="fas fa-palette"></i></button>
         </header>
 
         <!-- Products Section -->
         <section id="products">
             <h2>Manage Products</h2>
             <div class="actions">
-                <button id="add-product" class="btn"><i class="fas fa-plus"></i> Add Product</button>
-                <button id="export-products" class="btn"><i class="fas fa-file-export"></i> Export</button>
+                <button id="add-product" class="btn" aria-label="Add Product"><i class="fas fa-plus"></i> Add Product</button>
+                <button id="export-products" class="btn" aria-label="Export Products"><i class="fas fa-file-export"></i> Export</button>
             </div>
             <div class="search">
-                <input type="text" id="product-search" placeholder="Search Products...">
+                <input type="text" id="product-search" placeholder="Search Products..." aria-label="Search Products">
             </div>
             <table id="product-table">
                 <thead>
@@ -325,7 +355,7 @@
         <div id="product-modal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <span class="close">&times;</span>
+                    <span class="close" aria-label="Close">&times;</span>
                     <h2>Product Details</h2>
                 </div>
                 <div class="modal-body">
@@ -371,6 +401,14 @@
                 document.getElementById('product-modal').style.display = 'none';
             }
         };
+
+        // Toggle Theme
+        document.getElementById('theme-switcher').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelectorAll('.btn').forEach(btn => btn.classList.toggle('dark-mode'));
+            document.querySelectorAll('th').forEach(th => th.classList.toggle('dark-mode'));
+            document.getElementById('sidebar').classList.toggle('dark-mode');
+        });
     </script>
 </body>
 </html>
